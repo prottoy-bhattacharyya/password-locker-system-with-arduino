@@ -1,19 +1,11 @@
-
-
-#include <LiquidCrystal_I2C.h>
-#include <string.h>
 #include <Wire.h>
 #include <Keypad.h>
+#include <LiquidCrystal_I2C.h>
 
-
-char pressedKey;
-int buzzer_pin = 10;
-int green_light = 11;
-int red_light = 12;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const byte ROWS = 4;  // four rows
 const byte COLS = 4;  // four columns
-String desiredString = "1234A";
 
 // Map the buttons to an array for the Keymap instance
 char hexaKeys[ROWS][COLS] = {
@@ -29,68 +21,51 @@ byte rowPins[COLS] = { 9, 8, 7, 6 };  // Pins used for the columns of the keypad
 // Initialise the Keypad
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
-
-//initialize the liquid crystal library
-//the first parameter is  the I2C address
-//the second parameter is how many rows are on your screen
-//the  third parameter is how many columns are on your screen
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+int buzzer_pin = 10;
+int green_light = 11;
+int red_light = 12;
+char cor_seq[5] = { '1', '2', '3', '4', 'A' };
+char pressedKey[5];
+int i = 0;
 
 void setup() {
   pinMode(buzzer_pin, OUTPUT);
   pinMode(green_light, OUTPUT);
   pinMode(red_light, OUTPUT);
-
+  
   //initialize lcd screen
   lcd.init();
   // turn on the backlight
   lcd.backlight();
-  Serial.begin(9600);  // Initialize serial communication for debugging (optional)
 }
-// void loop() {
-// //  // wait  for a second
-// //   delay(1000);
-// //   // tell the screen to write on the top row
-// //   lcd.setCursor(0,0);
-// //   // tell the screen to write “hello, from” on the top  row
-// //   lcd.print("hello");
-// //   // tell the screen to write on the bottom  row
-// //   lcd.setCursor(0,1);
-// //   // tell the screen to write “Arduino_uno_guy”  on the bottom row
-// //   // you can change whats in the quotes to be what you want  it to be!
-// //   lcd.print("world");
-//   char button = customKeypad.getKey();
-//   if (button) {
 
-//     lcd.print(button);
-//   }
-// }
+int cheak(char a[], char b[]) {
+  for (int j = 0; j < 5; j++) {
+    if (a[j] != b[j]) return 0;
+  }
+  return 1;
+}
+
 void loop() {
-
   char key = customKeypad.getKey();
-
   if (key) {
-    lcd.print(key);  // Print the pressed key to the serial monitor (optional)
-
-    // Check if the pressed key matches the desired string character by character
-    if (String(key) == desiredString.substring(0, 1)) {
-      desiredString = desiredString.substring(1);  // Remove the matched character
-
-      if (desiredString.length() == 0) {
-        // The entire desired string was pressed - perform your action here!
+    pressedKey[i] = key;
+    lcd.print(pressedKey[i]);
+    i++;
+    if (key == 'A') {
+      if (cheak(cor_seq, pressedKey) == 0) {
+        lcd.clear();
+        lcd.print("Wrong Password");
+        digitalWrite(red_light, HIGH);
+        delay(3000);
+        digitalWrite(red_light, LOW);
+      } else {
         lcd.clear();
         lcd.print("Access Granted");
         digitalWrite(green_light, HIGH);
         delay(3000);
         digitalWrite(green_light, LOW);
       }
-
-    } else {
-      // Reset the desired string if the sequence is broken
-      desiredString = "1234A";
-      digitalWrite(red_light, HIGH);
-      delay(1000);
-      digitalWrite(red_light, LOW);
     }
   }
 }
