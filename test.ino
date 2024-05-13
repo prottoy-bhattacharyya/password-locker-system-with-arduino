@@ -34,7 +34,7 @@ void setup() {
 }
 int cheak(char a[], char b[]) {
   for (int j = 0; j < 5; j++) {
-    if (a[j] != b[i]) return 0;
+    if (a[j] != b[j]) return 0;
   }
   return 1;
 }
