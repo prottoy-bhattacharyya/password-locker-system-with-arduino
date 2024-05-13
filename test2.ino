@@ -4,10 +4,9 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const byte ROWS = 4;  // four rows
-const byte COLS = 4;  // four columns
+const byte ROWS = 4;
+const byte COLS = 4;
 
-// Map the buttons to an array for the Keymap instance
 char hexaKeys[ROWS][COLS] = {
   { '1', '2', '3', 'A' },
   { '4', '5', '6', 'B' },
@@ -15,16 +14,15 @@ char hexaKeys[ROWS][COLS] = {
   { '*', '0', '#', 'D' }
 };
 
-byte colPins[ROWS] = { 5, 4, 3, 2 };  // Pins used for the rows of the keypad
+byte colPins[ROWS] = { 5, 4, 3, 2 };
 byte rowPins[COLS] = { 9, 8, 7, 6 };  // Pins used for the columns of the keypad
 
-// Initialise the Keypad
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
 int buzzer_pin = 10;
 int green_light = 11;
 int red_light = 12;
-char cor_seq[5] = { '1', '2', '3', '4', 'A' };
+char cor_seq[5] = { '1', '2', '3', '4', 'D' };
 char pressedKey[5];
 int i = 0;
 
@@ -32,10 +30,8 @@ void setup() {
   pinMode(buzzer_pin, OUTPUT);
   pinMode(green_light, OUTPUT);
   pinMode(red_light, OUTPUT);
-  
-  //initialize lcd screen
+
   lcd.init();
-  // turn on the backlight
   lcd.backlight();
 }
 
@@ -52,14 +48,18 @@ void loop() {
     pressedKey[i] = key;
     lcd.print(pressedKey[i]);
     i++;
-    if (key == 'A') {
+
+    if (key == 'D') {
+
       if (cheak(cor_seq, pressedKey) == 0) {
         lcd.clear();
         lcd.print("Wrong Password");
         digitalWrite(red_light, HIGH);
         delay(3000);
         digitalWrite(red_light, LOW);
-      } else {
+      }
+
+      else {
         lcd.clear();
         lcd.print("Access Granted");
         digitalWrite(green_light, HIGH);
