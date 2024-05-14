@@ -26,6 +26,8 @@ char cor_seq[5] = { '1', '2', '3', '4', 'D' };
 char pressedKey[5];
 int i = 0;
 
+void(* resetFunc) (void) = 0;
+
 void setup() {
   pinMode(buzzer_pin, OUTPUT);
   pinMode(green_light, OUTPUT);
@@ -57,6 +59,7 @@ void loop() {
         digitalWrite(red_light, HIGH);
         delay(3000);
         digitalWrite(red_light, LOW);
+        resetFunc();
       }
 
       else {
@@ -65,6 +68,7 @@ void loop() {
         digitalWrite(green_light, HIGH);
         delay(3000);
         digitalWrite(green_light, LOW);
+        resetFunc();
       }
     }
   }
