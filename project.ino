@@ -1,4 +1,3 @@
-
 #include <Wire.h>
 #include <Keypad.h>
 #include <LiquidCrystal_I2C.h>
@@ -21,7 +20,7 @@ char hexaKeys[ROWS][COLS] = {
 };
 
 byte colPins[ROWS] = { 5, 4, 3, 2 };
-byte rowPins[COLS] = { 9, 8, 7, 6 };  // Pins used for the columns of the keypad
+byte rowPins[COLS] = { 9, 8, 7, 6 };
 
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
@@ -29,8 +28,8 @@ Servo s1;
 int servo_pin = 10;
 
 int green_light = 11;
-int red_light = 12;
-char cor_seq[5] = { '1', '3', '3', '4', 'D' };  //password= "1334" press D to enter
+int red_light = 12; // connect red light and buzzer in parallel
+char cor_seq[5] = { '1', '5', '8', '3', 'D' };  //password= "1583" press D to enter
 char pressedKey[5];
 int i = 0;
 
