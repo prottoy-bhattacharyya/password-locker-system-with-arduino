@@ -1,3 +1,4 @@
+
 #include <Wire.h>
 #include <Keypad.h>
 #include <LiquidCrystal_I2C.h>
@@ -20,7 +21,7 @@ char hexaKeys[ROWS][COLS] = {
 };
 
 byte colPins[ROWS] = { 5, 4, 3, 2 };
-byte rowPins[COLS] = { 9, 8, 7, 6 };
+byte rowPins[COLS] = { 9, 8, 7, 6 };  // Pins used for the columns of the keypad
 
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
@@ -28,8 +29,9 @@ Servo s1;
 int servo_pin = 10;
 
 int green_light = 11;
-int red_light = 12; // connect red light and buzzer in parallel
-char cor_seq[5] = { '1', '5', '8', '3', 'D' };  //password= "1583" press D to enter
+int red_light = 12;
+
+char cor_seq[5] = { '1', '3', '3', '4', 'D' };  //password= "1334" press D to enter
 char pressedKey[5];
 int i = 0;
 
@@ -60,26 +62,21 @@ void on_off(int pin1) {
 void openGate() {
   lcd.clear();
   lcd.print("Opening Gate...");
-  // for (int j = 0; j <= 180; j++) {
-  //   s1.write(j);
-  //   delay(15);
-  // }
-  s1.write(100);
-  delay(5000);
-  s1.write(91);
+  for (int j = 0; j <= 180; j++) {
+    s1.write(j);
+    delay(15);
+  }
 }
 
 void closeGate() {
   lcd.clear();
   lcd.print("Closing Gate...");
-  // for (int j = 180; j >= 0; j--) {
-  //   s1.write(i);
-  //   delay(15);
-  // }
-  s1.write(88);
-  delay(5000);
-  s1.write(91);
+  for (int j = 180; j >= 0; j--) {
+    s1.write(i);
+    delay(15);
+  }
 }
+
 void countDown(){
   for(int j=15; j >=0; j--){
 	lcd.clear(); 
@@ -89,12 +86,13 @@ void countDown(){
   }
 }
 
+
 void setup() {
   s1.attach(servo_pin);
   pinMode(green_light, OUTPUT);
   pinMode(red_light, OUTPUT);
   
-  // s1.write(0);
+  s1.write(0);
 
   lcd.init();
   lcd.backlight();
@@ -108,7 +106,8 @@ void loop() {
   char key = customKeypad.getKey();
   if (key) {
     pressedKey[i] = key;
-    lcd.print(pressedKey[i]);
+    lcd.print("* ");
+    //lcd.print(key);
     i++;
 
     if (key == 'D') {
@@ -124,6 +123,7 @@ void loop() {
         delay(3000);
         on_off(green_light);
         openGate();
+        delay(5000);
         countDown();
         closeGate();
         resetFunc();
