@@ -62,19 +62,25 @@ void on_off(int pin1) {
 void openGate() {
   lcd.clear();
   lcd.print("Opening Gate...");
-  for (int j = 0; j <= 180; j++) {
-    s1.write(j);
-    delay(15);
-  }
+  // for (int j = 0; j <= 180; j++) {
+  //   s1.write(j);
+  //   delay(15);
+  // }
+  s1.write(100);
+  delay(5000);
+  s1.write(91);
 }
 
 void closeGate() {
   lcd.clear();
   lcd.print("Closing Gate...");
-  for (int j = 180; j >= 0; j--) {
-    s1.write(i);
-    delay(15);
-  }
+  // for (int j = 180; j >= 0; j--) {
+  //   s1.write(i);
+  //   delay(15);
+  // }
+  s1.write(88);
+  delay(5000);
+  s1.write(91);
 }
 
 void countDown(){
