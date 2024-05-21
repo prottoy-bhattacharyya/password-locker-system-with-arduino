@@ -51,10 +51,8 @@ void on_off(int pin1) {
   }
   for (int j = 0; j < 5; j++) {
     digitalWrite(pin1, HIGH);
-    // digitalWrite(pin2, HIGH);
     delay(300);
     digitalWrite(pin1, LOW);
-    // digitalWrite(pin2, LOW);
     delay(300);
   }
 }
@@ -123,7 +121,9 @@ void loop() {
         lcd.print("Wrong Password");
         on_off(red_light);
         resetFunc();
-      } else {
+      } 
+      
+      else {
         lcd.clear();
         lcd.print("Access Granted");
         delay(3000);
