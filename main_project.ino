@@ -27,11 +27,11 @@ Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS)
 
 Servo s1;
 int servo_pin = 10;
-int buzzer_pin = 13;
+int buzzer_pin = 1;
 int green_light = 11;
 int red_light = 12;
 
-char cor_seq[5] = { '1', '5', '8', '3', 'D' };  //password= "1334" press D to enter
+char cor_seq[5] = { '1', '5', '8', '3', 'D' };  //password= "1583" press D to enter
 char pressedKey[5];
 int i = 0;
 
@@ -48,23 +48,14 @@ void on_off(int pin1) {
   if(pin1 == green_light) {
     lcd.clear();
     lcd.print("Processing...");
-    for (int j = 0; j < 5; j++) {
+    
+  }
+  for (int j = 0; j < 5; j++) {
       digitalWrite(pin1, HIGH);
       delay(300);
       digitalWrite(pin1, LOW);
       delay(300);
     }
-  }
-  else if(pin1 == red_light){
-    digitalWrite(buzzer_pin, HIGH);
-      for (int j = 0; j < 5; j++) {
-      digitalWrite(pin1, HIGH);
-      delay(300);
-      digitalWrite(pin1, LOW);
-      delay(300);
-    }
-    digitalWrite(buzzer_pin, LOW);
-  }
 }
 
 void openGate() {
