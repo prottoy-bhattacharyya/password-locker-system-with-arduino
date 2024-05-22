@@ -1,4 +1,3 @@
-
 #include <Wire.h>
 #include <Keypad.h>
 #include <LiquidCrystal_I2C.h>
@@ -21,15 +20,15 @@ char hexaKeys[ROWS][COLS] = {
 };
 
 byte colPins[ROWS] = { 5, 4, 3, 2 };
-byte rowPins[COLS] = { 9, 8, 7, 6 };  // Pins used for the columns of the keypad
+byte rowPins[COLS] = { 9, 8, 7, 6 };
 
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
 Servo s1;
 int servo_pin = 10;
-int buzzer_pin = 1;
 int green_light = 11;
 int red_light = 12;
+int buzzer_pin = 12;
 
 char cor_seq[5] = { '1', '5', '8', '3', 'D' };  //password= "1583" press D to enter
 char pressedKey[5];
@@ -61,10 +60,6 @@ void on_off(int pin1) {
 void openGate() {
   lcd.clear();
   lcd.print("Opening Gate...");
-  // for (int j = 0; j <= 180; j++) {
-  //   s1.write(j);
-  //   delay(15);
-  // }
   s1.write(100);
   delay(6000);
   s1.write(91);
@@ -73,13 +68,20 @@ void openGate() {
 void closeGate() {
   lcd.clear();
   lcd.print("Closing Gate...");
-  // for (int j = 180; j >= 0; j--) {
-  //   s1.write(i);
-  //   delay(15);
-  // }
   s1.write(88);
   delay(5000);
   s1.write(91);
+
+  // lcd.print("press c to close");
+  // delay(15);
+  // if(customKeypad.getKey() == 'C') {
+  //   lcd.print("Closing Gate...");
+  //   s1.write(88);
+  //   delay(5000);
+  //   s1.write(91);
+  //   return;
+  // }
+  // else closeGate();
 }
 
 void countDown(){
