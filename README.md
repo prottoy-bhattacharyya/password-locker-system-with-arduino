@@ -1,4 +1,4 @@
-**#Password Protected Locker System**
+# Password Protected Locker System
 
 **Add the 3 header files to your Ardino IDE and upload the code to Arduino and connect other components properly**
 
